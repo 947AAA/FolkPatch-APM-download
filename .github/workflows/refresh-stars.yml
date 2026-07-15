@@ -19,6 +19,8 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -41,3 +43,53 @@ jobs:
           fi
           git commit -m "chore: refresh module catalog metadata"
           git push
+
+      - name: Sync GitHub to Gitee if divergent
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${GITEE_TOKEN:-}" ]; then
+            echo "GITEE_TOKEN is not set; skip Gitee sync"
+            exit 0
+          fi
+
+          GITEE_REMOTE="https://JT22:${GITEE_TOKEN}@gitee.com/JT22/MakoSU_ModuleDownload.git"
+          git remote remove gitee 2>/dev/null || true
+          git remote add gitee "$GITEE_REMOTE"
+
+          if ! git fetch gitee --prune; then
+            echo "Gitee fetch failed; force push full GitHub tree"
+            git push gitee HEAD:main --force
+            git push gitee --tags --force || true
+            exit 0
+          fi
+
+          if ! git rev-parse --verify gitee/main >/dev/null 2>&1; then
+            echo "Gitee main missing; force push full GitHub tree"
+            git push gitee HEAD:main --force
+            git push gitee --tags --force || true
+            exit 0
+          fi
+
+          # File-level consistency: any path added/removed/changed counts as diverge
+          DIFF_FILES="$(git diff --name-status HEAD gitee/main || true)"
+          if [ -z "$DIFF_FILES" ]; then
+            # Also compare commit identity for extra safety (empty trees edge cases)
+            if [ "$(git rev-parse HEAD)" = "$(git rev-parse gitee/main)" ]; then
+              echo "GitHub and Gitee are identical"
+              exit 0
+            fi
+          fi
+
+          echo "Repositories diverge; forcing GitHub -> Gitee sync"
+          if [ -n "$DIFF_FILES" ]; then
+            echo "$DIFF_FILES"
+          else
+            echo "Commit SHAs differ: $(git rev-parse --short HEAD) vs $(git rev-parse --short gitee/main)"
+          fi
+
+          git push gitee HEAD:main --force
+          git push gitee --tags --force || true
+          echo "Gitee sync completed"
