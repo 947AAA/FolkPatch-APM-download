@@ -84,6 +84,27 @@
     "repoUrl": "https://github.com/matsuzaka-yuki/FolkPatch-Mod"
   },
   {
+    "moduleId": "meta-hybrid_mount",
+    "moduleName": "Hybrid Mount",
+    "authors": [
+      {
+        "name": "Hybrid-Mount",
+        "link": "https://github.com/Hybrid-Mount/meta-hybrid_mount"
+      }
+    ],
+    "summary": "KernelSU/APatch 挂载编排元模块，统一 OverlayFS、Magic Mount 与 Kasumi 后端，并提供 WebUI 管理",
+    "metamodule": true,
+    "stargazerCount": 1315,
+    "latestRelease": {
+      "name": "v4.2.0",
+      "time": "2026-06-27",
+      "downloadUrl": "https://ghfast.top/https://github.com/Hybrid-Mount/meta-hybrid_mount/releases/download/v4.2.0/Hybrid-Mount-4.2.0-1815.zip",
+      "size": 2161504,
+      "downloadCount": 17581
+    },
+    "repoUrl": "https://github.com/Hybrid-Mount/meta-hybrid_mount"
+  },
+  {
     "moduleId": "zygisknext",
     "moduleName": "ZygiskNext",
     "authors": [
