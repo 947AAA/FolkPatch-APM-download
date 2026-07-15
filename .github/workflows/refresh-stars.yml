@@ -1,0 +1,43 @@
+name: Refresh Module Catalog
+
+on:
+  schedule:
+    # China Standard Time 00:00 == UTC 16:00
+    - cron: "0 16 * * *"
+  push:
+    paths:
+      - "modules.json"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    if: github.event_name != 'push' || github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Refresh catalog metadata
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 refresh_stars.py
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add modules.json
+          if git diff --staged --quiet; then
+            echo "No module catalog changes"
+            exit 0
+          fi
+          git commit -m "chore: refresh module catalog metadata"
+          git push
