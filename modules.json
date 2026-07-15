@@ -105,7 +105,7 @@
       "downloadUrl": "https://github.com/Dr-TSNG/ZygiskNext/releases/download/v1.4.2/Zygisk-Next-1.4.2-789-119aaa0-release.zip",
       "versionCode": 0,
       "size": 7032593,
-      "downloadCount": 164700
+      "downloadCount": 164717
     },
     "repoUrl": "https://github.com/Dr-TSNG/ZygiskNext"
   },
@@ -149,7 +149,7 @@
       "downloadUrl": "https://github.com/snake-4/Zygisk-Assistant/releases/download/v2.1.4/Zygisk-Assistant-v2.1.4-1013f8a-release.zip",
       "versionCode": 0,
       "size": 392961,
-      "downloadCount": 225859
+      "downloadCount": 225861
     },
     "repoUrl": "https://github.com/snake-4/Zygisk-Assistant"
   },
@@ -215,7 +215,7 @@
       "downloadUrl": "https://github.com/LSPosed/LSPosed.github.io/releases/download/shamiko-414/Shamiko-v1.2.5-414-release.zip",
       "versionCode": 0,
       "size": 6523936,
-      "downloadCount": 589272
+      "downloadCount": 589281
     },
     "repoUrl": "https://github.com/LSPosed/LSPosed.github.io"
   }
