@@ -219,8 +219,8 @@ def absolutize_readme_links(rendered: str, readme: dict) -> str:
             return match.group(0)
         return f'{match.group(1)}{urljoin(html_base, value)}{match.group(3)}'
 
-    rendered = re.sub(r'(<img[^>]+\ssrc=")([^"]+)(")', replace_src, rendered, flags=re.IGNORECASE)
-    return re.sub(r'(<a[^>]+\shref=")([^"]+)(")', replace_href, rendered, flags=re.IGNORECASE)
+    rendered = re.sub(r'(<img[^>]*?\ssrc=")([^"]+)(")', replace_src, rendered, flags=re.IGNORECASE)
+    return re.sub(r'(<a[^>]*?\shref=")([^"]+)(")', replace_href, rendered, flags=re.IGNORECASE)
 
 
 def render_readme(module: dict, full_repo: str | None) -> tuple[str, str]:
